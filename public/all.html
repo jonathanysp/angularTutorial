@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Tutorial</title>
+
+    <link type="text/css" rel="stylesheet" href="assets/css/reset.css">
+    <link type="text/css" rel="stylesheet" href="http://yandex.st/highlightjs/6.1/styles/sunburst.min.css">
+    <link type="text/css" rel="stylesheet" href="assets/css/docs.css">
+    <link type="text/css" rel="stylesheet" href="assets/css/print.css" media="print">
+    
+
+    <script type="text/javascript" src="assets/js/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="http://yandex.st/highlightjs/6.1/highlight.min.js"></script>
+    <script type="text/javascript" src="assets/js/lunr.min.js"></script>
+
+    
+
+    <script type="text/javascript">var BASE_URL = "";</script>
+    <script type="text/javascript" src="assets/js/viewer.js"></script>
+
+    
+</head>
+<body>
+    <div id="page">
+        <a name="top" />
+        <header id="header">
+            <h1><a href="">Tutorial</a></h1>
+        </header>
+        
+
+<div id="sidebar">
+    <form action="search.html"><input id="search" type="text" placeholder="Search" name="q" /></form>
+    <nav id="toc">
+        
+    <ol>
+    
+        <li>
+            <a href="tutorial.html#a-quick-tutorial-on-angularjs">A quick tutorial on AngularJS</a>
+            
+                
+    <ol>
+    
+        <li>
+            <a href="tutorial.html#getting-started">Getting Started</a>
+            
+        </li>
+    
+        <li>
+            <a href="tutorial.html#hello-world">Hello, World!</a>
+            
+        </li>
+    
+        <li>
+            <a href="tutorial.html#controllers">Controllers</a>
+            
+        </li>
+    
+        <li>
+            <a href="tutorial.html#directives">Directives</a>
+            
+        </li>
+    
+        <li>
+            <a href="tutorial.html#views">Views</a>
+            
+        </li>
+    
+        <li>
+            <a href="tutorial.html#services">Services</a>
+            
+        </li>
+    
+        <li>
+            <a href="tutorial.html#conclusion">Conclusion</a>
+            
+        </li>
+    
+</ol>
+
+            
+        </li>
+    
+</ol>
+
+    </nav>
+    
+    <nav id="links">
+        <ul>
+            
+        </ul>
+    </nav>
+    
+</div>
+
+        <div id="content">
+            <h1 id="a-quick-tutorial-on-angularjs">A quick tutorial on AngularJS</h1>
+<p><strong>By Jonathan Poon (jypoon)</strong></p>
+<p>In this tutorial you will be learning about 5 foundational components of the AngularJS framework: controllers, models, directives, views and services. You will be building a webapp that contains a todo application and a notepad that will persist even when the user closes and reopens the website.</p>
+<p>Keep in mind that this tutorial does not have any css styling so your end product will be functional, but ugly. You may choose to use bootstrap to make things prettier.</p>
+<h2 id="getting-started">Getting Started</h2>
+<p><em>Note</em>: Steps 1, 2 and 4 are not required by angular but are highly recommneded as it will create a small webserver on your computer. Opening html files from a webserver is much less error prone than simply opening index.html</p>
+<ol>
+<li>Make sure that you have nodejs and npm installed on your computer</li>
+<li>Install grunt from npm: <code>npm install -g grunt-cli</code></li>
+<li>Download the files here:</li>
+<li>Open your terminal and cd into the folder you cloned and run <code>npm install</code> to install the websever, when done run <code>grunt http-server</code></li>
+<li>Open your browser and navigate to <code>localhost:3000</code></li>
+<li>If everything worked, you should see a friendly message</li>
+<li>If you have opted not to run the websever, simply open the index.html file. <strong>make sure to allow chrome to access local files by starting from like this:</strong> <code>google-chrome --allow-file-access-from-files</code></li>
+</ol>
+<h2 id="hello-world-">Hello, World!</h2>
+<p>We will start by creating a simple hello world message using Angular. We first have to create an app and register it with angular. Open the app.js file and define a new app:</p>
+<pre><code>var app = angular.module(&quot;todo&quot;, []);</code></pre>
+<p>We have now declared a new application called <code>todo</code> within angular, next we will associate it with the DOM. In index.html, associate the body tag with the &quot;todo&quot; app</p>
+<pre><code>&lt;body ng-app=&quot;todo&quot;&gt;</code></pre>
+<p>The next step is to create a controller that handles all the data in the message. A controller, is used to manipulate data or sets of data. In this case it will hold our message. Open the helloWorldCtrl.js file and type the following lines:</p>
+<pre><code>app.controller(&quot;helloWorldCtrl&quot;, function($scope){
+    $scope.msg = &quot;hello world!&quot;;
+})</code></pre>
+<p>This creates a new controller called &quot;helloWorldCtrl&quot;. Each controller has a $scope variable which stores all of its local data. In this controller, it contains a <code>$scope.msg</code> string with <code>hello world</code>.</p>
+<p><strong>Remember to include the javascript files you edited into index.html!</strong></p>
+<p>Next we will associate the controller to a DOM element in index.html. We may choose to associate it to the <code>&lt;body&gt;</code> tag of a <code>&lt;div&gt;</code> inside the body. As long as it is on the same level as or in a child element of the <code>ng-app=todo</code> it will work. In this case, we will create a new <code>&lt;div&gt;</code> element under <code>&lt;body&gt;</code> and associate it with our new controller.</p>
+<pre><code>&lt;body ng-app=&quot;todo&quot; ng-controller=&quot;helloWorldCtrl&quot;&gt;
+    &lt;div ng-controller=&quot;helloWorldCtrl&quot;&gt;
+    &lt;/div&gt;
+&lt;/body&gt;</code></pre>
+<p>Everything inside the controller div can now access the <code>$scope</code> variable. To do this, we place our angular expressions inside double curly braces <code>{{}}</code>. Angular will evaluate everything inside double curly braces as well as inside <code>ng-*</code> attributes e.g. <code>ng-controller=&quot;helloWorldCtrl&quot;</code>.</p>
+<p>To display our message, we can simply do this:</p>
+<pre><code>&lt;body ng-app=&quot;todo&quot; ng-controller=&quot;helloWorldCtrl&quot;&gt;
+    &lt;div ng-controller=&quot;helloWorldCtrl&quot;&gt;
+        {{msg}}
+    &lt;/div&gt;
+&lt;/body&gt;</code></pre>
+<p>If you go to <code>localhost:3000</code> now, you should see our message!</p>
+<p>If not, make sure you have included all the javscript files and check the javascript console (<code>ctrl+shift+j</code> on chrome) to check for bugs. You may install &quot;Angular Batarang&quot; form the chrome web store to help debug Angular code.</p>
+<p>Now we want to be able to modify the message variable on the fly. We do this by using a <strong>model</strong> which binds the variable to a dom element.</p>
+<p>We can create an text input field and bind it to <code>msg</code> by adding the following:</p>
+<pre><code>&lt;body ng-app=&quot;todo&quot; ng-controller=&quot;helloWorldCtrl&quot;&gt;
+    &lt;div ng-controller=&quot;helloWorldCtrl&quot;&gt;
+        &lt;input ng-model=&quot;msg&quot;/&gt;
+        {{msg}}
+    &lt;/div&gt;
+&lt;/body&gt;</code></pre>
+<p>You should now have an editable text field that will modify the msg variable when you type!</p>
+<p>Make sure that you understand controllers and models from this example. We will now start building the todo application.</p>
+<h2 id="controllers">Controllers</h2>
+<p>Open the <code>todosCtrl.js</code> file in the controllers folder. Within the file, define a new controller called <code>todosCtrl</code> just like how we did helloWorldCtrl. Within this, we will initialize the following fields:</p>
+<ul>
+<li>$scope.items = [] //an array in which we will store our list</li>
+<li>$scope.newItem = null //a variable to hold the new item being edited</li>
+</ul>
+<p>We can also define functions inside the controller scope. Define a function that will push the contents of newItem into the items array and clear whatever is stored in newItem. Also define a function that will delete (splice) an element at a given index.</p>
+<pre><code>$scope.addItem = function(){
+    $scope.items.push($scope.newItem);
+    $scope.newItem = null;
+}
+
+$scope.delItem = function(i){
+    $scope.items.splice(i, 1);
+}</code></pre>
+<p>Now lets connect this controller to a div inside the app in the DOM. If you have connected it properly, display the <code>$scope.item</code> array inside the div and you should now see an empty array &quot;[]&quot;</p>
+<h2 id="directives">Directives</h2>
+<p>Directives are the attributes you add to DOM elements starting with &quot;ng&quot; or other ones that you define manually. They help you manipulate DOM element as well as event listeners for the DOM. The separation of controllers and directives allows you to keep your data and its DOM representation separate and easy to handle.</p>
+<p>A very useful directive is ng-repeat which will loop through an array and create an element for each item in the array. In this case, we will create an unordered list and create a list item for each element in the array using ng-repeat.</p>
+<pre><code>&lt;ul&gt;
+    &lt;li ng-repeat=&quot;item in items&quot;&gt;
+        {{item}}
+    &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>Next, we will want to create a field to add a new item, using ng-models, this is similar to the our hello world example. But in this case, we would like to wrap the input in a form, so we can submit the newItem to be processed by the controller when we press enter.</p>
+<p>Finally lets assign an submit listener to our form element using ng-submit=&quot;addItem&quot; which will be called when we press enter in the input box.</p>
+<pre><code>&lt;form ng-submit=&quot;addItem()&quot;&gt;
+    &lt;input type=&quot;text&quot; ng-model=&quot;newItem&quot;/&gt;
+&lt;/form&gt;</code></pre>
+<p>We should now have a functioning todo list!</p>
+<p>Next we will add a delete button for each element on the list. Each element should have a slightly different delete function as it should only delete itself. Angular can do all of this for you using <code>ng-repeat</code> and <code>ng-click</code>!</p>
+<pre><code>&lt;li ng-repeat=&quot;item in items&quot;&gt;
+    &lt;button ng-click=&quot;delItem($index)&quot;&gt;x&lt;/button&gt;
+    {{item}}
+&lt;/li&gt;</code></pre>
+<p>The ng-repeat directive exposes a $index variable (along with other useful things) which will give you the index of the item it is looping over. This works perfectly to associate a different click handler for our delete buttons (<code>delItem(0)</code>, <code>delItem(1)</code>...).</p>
+<p>Our todo list should now be fully functional!</p>
+<h2 id="views">Views</h2>
+<p>What if we wanted to expand our app to have multiple controllers? There is already a notesCtrl created inside the controller folder which supports saving a string into <code>$scope.note</code>. To use this, we can create another <code>.html</code> file which has DOM elements modeling <code>$scope.note</code> but this will not be ideal as the browser will have to reload a whole new webpage.</p>
+<p>This causes the browser to possibly delete all the scripts, controllers and resources related to the previous page so when the user goes back, it will have to download and reprocess that again.</p>
+<p>A better way would be to use views and rather than loading a new page, only download the new information required, hide the old stuff and only show the new stuff. Because we do not switch to a new page, both the old and new stuff will all be cached by the browser. Also, we can do transitions more easily.</p>
+<p>We do this by using routing and views, we define a route in router.js which connects a url to a <strong>partial</strong> which is the html related to that page as well as the controller in charge of that partial. We connect the routes in a scheme like this:</p>
+<pre><code>mywebsite.com/#todo --&gt; templates/todo.html : todosCtrl
+mywebsite.com/#notes --&gt; templates/notes.html : notesCtrl
+mywebsite.com/#[everything else] --&gt; /todo</code></pre>
+<p>Notice the &quot;#&quot; after the &quot;/&quot; which shows that instead of loading a subdirectory from the server, we tell angular to get us the new view.</p>
+<p>In the router.js file, we will configure a <code>$routeProvider</code> which will redirect the paths for us.</p>
+<pre><code class="lang-javascript">app.config([&#39;$routeProvider&#39;,
+    function($routeProvider){
+        $routeProvider.
+        when(&#39;/todo&#39;, {
+            templateUrl: &#39;templates/todo.html&#39;,
+            controller: &#39;todosCtrl&#39;
+        }).
+        when(&#39;/notes&#39;, {
+            templateUrl: &#39;templates/notes.html&#39;,
+            controller: &#39;notesCtrl&#39;
+        }).
+        otherwise({
+            redirectTo: &#39;/todo&#39;
+        })
+    }])</code></pre>
+<p>Next we will have to move the div we have attached to &quot;todosCtrl&quot; to its own file in templates/todo.html, we can copy everything inside the div where we declared ng-controller=&quot;todosCtrl&quot; into this partial. Next we will write the DOM elements for the notesCtrl in its own templates file at &quot;templates/notes.html&quot;. Note that we do not need to dclare <code>ng-controller</code> in the partial as this is already delcared in the router</p>
+<p>Finally, in our <code>index.html</code> we will create a div inside our ng-app with the directive <code>ng-view</code>. This tells angular where to insert the partials.</p>
+<p>Now, we need to create a link between the two views. We can either us an <code>&lt;a&gt;</code> tag or we can do it programatically. To control the location of the browser, we use the $location service, we simply add that to the function in the controller. like this:</p>
+<pre><code>app.controller(&quot;todosCtrl&quot;, function($scope, $location){
+    ...
+}</code></pre>
+<p>Dont worry about the order in which the parameters are given, angular reads in the name of the parameter first before passing them in, this is called depenency injection.</p>
+<p>Now we can add the function that takes the user to notes like this:</p>
+<pre><code>$scope.gotoNotes = function(){
+    $location.path(&#39;/notes&#39;);
+}</code></pre>
+<p>Next, we can attach this function to a button using the <code>ng-click</code> directive.</p>
+<pre><code>&lt;button ng-click=&quot;gotoNotes()&quot;&gt;Notes&lt;/button&gt;</code></pre>
+<p>Do the same for notes, to take the user back.</p>
+<p>You should now have a functional todo list page and a notes page!</p>
+<h2 id="services">Services</h2>
+<p>You may have noticed that todo itmes and notes do not persist when you change views. This is because each time the view is rendered, a new controller is created and the old one is discarded when we change views. To keep the data persistant, we will need to create a service which will store the data that we need. Services, unlike controllers, are singleton objects, so there can only be one instance of them. Therefore, they are a great way to store and fetch data from. To create a new service, open appService.js in the services folder.</p>
+<p>We create a two variables, an array to store item and a normal variable to store the note. We then return a set of functions that allow us to get and set the variables. We can make this more complex to interface with either localStorage API of web browsers or with a database hosted on a server.</p>
+<pre><code>app.factory(&#39;appService&#39;, function () {
+    var todos = [];
+    var note = null;
+
+    return {
+        getTodos:function () {
+            return todos;
+        },
+        putTodos:function (newTodos) {
+            todos = newTodos;
+        },
+        getNote: function(){
+            return note;
+        },
+        putNote:function(newNote){
+            note = newNote;
+        }
+    };
+});</code></pre>
+<p>Now we have to modify our controllers to use this service to retrieve and store data. We simply add &quot;appService&quot; as an extra parameter to the controller function. It does not matter which order we arrange the parameters here because Angular dependency injection will read the source code and pass in the correct service. Therefore, in this special case, <strong>parameter names are important!</strong></p>
+<pre><code>app.controller(&quot;todosCtrl&quot;, function($scope, $location, appService){
+    $scope.items = appService.getTodos();
+    $scope.newItem = null;
+
+    $scope.addItem = function(){
+        $scope.items.push($scope.newItem);
+        $scope.newItem = null;
+    }
+
+    $scope.$watch(&#39;items&#39;, function(newVal, oldVal){
+        appService.putTodos(newVal);
+    })
+
+    $scope.delItem = function(i){
+        $scope.items.splice(i, 1);
+    }
+
+    $scope.gotoNotes = function(){
+        $location.path(&#39;/notes&#39;);
+    }
+})</code></pre>
+<p>We create a $watch function on the variable #scope.items so that whenever it is modified, its changes are updated with appService.</p>
+<p>Do the same with notesCtrl.js</p>
+<p>Your data should now be persistant when views are changed!</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>You should now have a fully functioning todo and notes app. Look at the mockup code for the TAG collection I wrote and you should understand the basic idea of how it works. You should be familiar with the foundations if Angular with controllers, models, directives, views and services.</p>
+<p>The only topic used in the TAG mockup are filters but you should be able to figure that out easily.</p>
+<p>For extra credit, you can make the appService.js interface with the HTML5 localStorage API to store the data so it will persist even if the user closes the site!</p>
+<p>I would encourage you to read more about other built in services and directves Angular provides such as <code>$http</code> service and <code>ng-animation</code> directives.</p>
+<p>I hope you had fun learning about Angular!</p>
+
+
+
+
+
+        </div>
+        <footer id="footer">
+            Powered by <a href="http://github.com/maximebf/beautiful-docs">beautiful-docs</a> -
+            <a href="#top">Back to top</a> - <a href="all.html">Everything on a single page</a>
+            - <a href="?print=1">Print current page</a> - <a href="all.html?print=1">Print all pages</a>
+            
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<button ng-click="gotoNotes()">Notes</button>
+<form ng-submit="addItem()">
+	<input type="text" ng-model="newItem"/>
+</form>
+<ul>
+	<li ng-repeat="item in items">
+		<button ng-click="delItem($index)">x</button>
+		{{item}}
+	</li>
+</ul>
